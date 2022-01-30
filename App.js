@@ -8,16 +8,19 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  Modal
+  Modal,
+  Alert
 } from "react-native";
 import NavigationBar from 'react-native-navbar';
 import { Picker } from "@react-native-picker/picker";
+import RNFetchBlob from 'rn-fetch-blob';
 
 
 function App() {
   const [data, setData] = React.useState([]);
   const [modalVisible, setModalVisible] = React.useState(false);
-  const [selectedValue, setSelectedValue] = React.useState("10");
+  const [selectedValue, setSelectedValue] = React.useState("1");
+
 
   const getImage = async () => {
     var page = 0;
@@ -33,19 +36,52 @@ function App() {
     }
   };
 
+  const downloadAlert = (item) => {
+    Alert.alert(
+      "Download",
+      "Do you want to download the image?",
+    [
+      {
+        text: "No",
+      },
+      {
+        text:"Yes",
+        onPress: () => downloadImage(item.download_url, item.author)
+      }
+    ]
+    )
+  }
+
+  const downloadImage = async (fileUrl, saveName) => {
+    let dirs = RNFetchBlob.fs.dirs
+
+    fileUrl = fileUrl + ".jpg"
+
+    await RNFetchBlob.config({
+      appendExt: 'jpg',
+      path: dirs.DownloadDir + "/download" + saveName + ".jpg",
+      overwrite: false,
+      indicator: true
+    })
+    .fetch('GET', fileUrl)
+    .then((res) => {
+      Alert.alert("Saved","The image saved to " + res.path())
+    })
+  }
+
   useEffect( () => {
     getImage();
  }, []);
 
-  const Item = ({ item, onPress, backgroundColor, textColor }) => (
-    <TouchableOpacity onPress={onPress}>
+  const Item = ({ item, backgroundColor, textColor }) => (
+    <TouchableOpacity onPress={() => downloadAlert(item)} >
       <Image style={styles.image} source={{ uri: item.download_url }} />
       <Text style={styles.itemText}>{item.author}</Text>
     </TouchableOpacity>
   );
 
   const renderItem = ({ item }) => {
-    return <Item item={item}   />;
+    return <Item item={item} />;
   };
 
   const titleConfig = {
@@ -74,7 +110,7 @@ function App() {
         >
           <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <View style={styles.modalView}>
-              <Text style={{position: 'relative', paddingTop: 2, fontWeight: 'bold'}}>Select photo number:</Text>
+              <Text style={{position: 'relative', paddingTop: 2, fontWeight: 'bold'}}>Select photo number to be shown:</Text>
                 <Picker
                     selectedValue={selectedValue}
                     style={{ height: 50, width: 150 }}
