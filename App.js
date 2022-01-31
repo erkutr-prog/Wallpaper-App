@@ -110,7 +110,7 @@ function App() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Select photo number to be shown:</Text>
+              <Text style={styles.modalText}>Select random image number: </Text>
                 <Picker
                     selectedValue={selectedValue}
                     style={{ height: 50, width: 150 }}
