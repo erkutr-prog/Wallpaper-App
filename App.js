@@ -108,7 +108,7 @@ function App() {
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={{position: 'relative', paddingTop: 2, fontWeight: 'bold'}}>Select photo number to be shown:</Text>
                 <Picker
@@ -188,9 +188,9 @@ const styles = StyleSheet.create({
     width: 350
   },
   centeredView: {
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 22
   },
 });
 
