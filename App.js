@@ -110,7 +110,7 @@ function App() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={{position: 'relative', paddingTop: 2, fontWeight: 'bold'}}>Select photo number to be shown:</Text>
+              <Text style={styles.modalText}>Select photo number to be shown:</Text>
                 <Picker
                     selectedValue={selectedValue}
                     style={{ height: 50, width: 150 }}
@@ -161,9 +161,6 @@ const styles = StyleSheet.create({
     height: 500,
     alignSelf: "center"
   },
-  btn: {
-    paddingBottom: 2,
-  },
   navbar: {
     backgroundColor: "#F5F5DC",
   },
@@ -192,6 +189,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  modalText: {
+    position: 'relative', 
+    paddingTop: 2, 
+    fontWeight: 'bold'
+  }
 });
 
 export default App;
